@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Spell Name</title>
+        <link href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="container">
+            <h1 th:text="${name}"></h1>
+            <ul th:each="letra : ${characteres}">
+                <li th:text="${letra}"></li>
+            </ul>
+        </div>
+    </body>
+</html>

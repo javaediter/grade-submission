@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>Form</title>
+        <link th:href="@{/css/bootstrap.min.css}" rel="stylesheet"/>
+    </head>
+    <body>
+        <div class="topnav">
+            <a th:href="@{/}">Form</a>
+            <a th:href="@{/grades}">Grades</a>
+        </div>
+        <div class="container">
+            <form method="post" th:object="${grade}" th:action="@{/handleSubmit}">
+                <input type="hidden" th:field="*{id}" />
+                <div class="input-group">
+                    <input name="student" class="form-control" type="text" placeholder="Name" th:field="*{student}"/>
+                </div>
+                <div class="input-group">
+                    <input name="subject" class="form-control" type="text" placeholder="Subject" th:field="*{subject}"/>
+                </div>
+                <div class="input-group">
+                    <input name="score" class="form-control" type="text" placeholder="Score" th:field="*{score}"/>
+                </div>
+                <div class="input-group">
+                    <br/>
+                    <br/>
+                    <input class="btn btn-primary" type="submit" value="Submit" />
+                </div>
+            </form>
+        </div>
+    </body>
+</html>
