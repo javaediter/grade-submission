@@ -39,7 +39,7 @@ public class GradeService {
     }
     
     public void deleteGrade(int index){
-        gradeRepository.getGrades().remove(index);
+        gradeRepository.deleteGrade(index);
     }
     
     public Grade getGradeById(String id){
