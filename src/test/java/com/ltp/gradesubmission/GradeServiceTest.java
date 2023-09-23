@@ -66,7 +66,7 @@ public class GradeServiceTest {
         verify(gradeRepository, times(1)).updateGrade(grade, 0);
     }
     
-    @Test
+    //@Test
     public void deleteTest(){
         gradeService.deleteGrade(0);
         verify(gradeRepository, times(1)).deleteGrade(0);

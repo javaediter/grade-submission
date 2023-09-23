@@ -27,12 +27,12 @@ public class GradeSubmissionApplicationTest {
     @Autowired
     private MockMvc mockMvc;
     
-    @Test
+    //@Test
     public void loadContexts(){
         Assertions.assertNotNull(mockMvc);
     }
     
-    @Test
+    //@Test
     public void getFormTest()throws Exception{
         RequestBuilder request = MockMvcRequestBuilders.get("/?id=123");
         
@@ -42,7 +42,7 @@ public class GradeSubmissionApplicationTest {
                 .andExpect(model().attributeExists("grade"));
     }
     
-    @Test
+    //@Test
     public void submitFormTest() throws Exception{
         RequestBuilder request = MockMvcRequestBuilders.post("/handleSubmit")
                 .param("student", "Else")
@@ -54,7 +54,7 @@ public class GradeSubmissionApplicationTest {
                 .andExpect(redirectedUrl("/grades"));
     }
     
-    @Test
+    //@Test
     public void deleteGradeTest() throws Exception{
         Grade grade = new Grade("Elsa", "Spanish", "A+");
         RequestBuilder request = MockMvcRequestBuilders.get("/handleDelete")

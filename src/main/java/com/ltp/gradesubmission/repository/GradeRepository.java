@@ -9,6 +9,7 @@ import com.ltp.gradesubmission.pojos.Grade;
 import static com.ltp.gradesubmission.utils.Constants.NOT_FOUND;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -18,31 +19,32 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class GradeRepository {
     
-    private List<Grade> grades = new ArrayList<>();
+    @Autowired
+    private DataStore dataStore;
     
     public Grade getGrade(int index){
-        return grades.get(index);
+        return dataStore.getGrades().get(index);
     }
     
     public void addGrade(Grade grade){
-        grades.add(grade);
+        dataStore.getGrades().add(grade);
     }
     
     public void updateGrade(Grade grade, int index){
-        grades.set(index, grade);
+        dataStore.getGrades().set(index, grade);
     }
     
     public List<Grade> getGrades(){
-        return grades;
+        return dataStore.getGrades();
     }
     
     public void deleteGrade(int index){
-        grades.remove(index);
+        dataStore.getGrades().remove(index);
     }
     
     public int getStudentIndex(String id){
-        for(int i = 0; i < grades.size(); i++){
-            if(grades.get(i).getId().equals(id))
+        for(int i = 0; i < dataStore.getGrades().size(); i++){
+            if(dataStore.getGrades().get(i).getId().equals(id))
                 return i;
         }
         return NOT_FOUND;

@@ -7,52 +7,58 @@ package com.ltp.gradesubmission.controller;
 
 import com.ltp.gradesubmission.pojos.Grade;
 import com.ltp.gradesubmission.service.GradeService;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  *
  * @author Edison Teran
  */
-@Controller
+@RestController
+@CrossOrigin(origins = "*")
 public class GradeController {
     
     @Autowired
     private GradeService gradeService;
     
-    @GetMapping("/")
-    public String getForm(Model model, @RequestParam(required = false) String id){
-        Grade grade = gradeService.getGradeById(id);
-        model.addAttribute("grade", grade);
-        return "form";
-    }
-    
-    @PostMapping("/handleSubmit")
-    public String submitForm(Grade grade){
-        int index = gradeService.getStudentIndex(grade.getId());
-        if(index < 0){
-            gradeService.addGrade(grade);
-        }else{
-            gradeService.updateGrade(grade, index);
-        }        
-        return "redirect:/grades";
-    }
-    
     @GetMapping("/grades")
-    public String getGrades(Model model){
-        model.addAttribute("grades", gradeService.getGrades());
-        return "grades";
+    public ResponseEntity<List<Grade>> getGrades(){
+        return new ResponseEntity<>(gradeService.getGrades(), HttpStatus.OK);
     }
     
-    @GetMapping("/handleDelete")
-    public String deleteGrade(String id){
+    @GetMapping("/grades/{id}")
+    public ResponseEntity<Grade> getGrade(@PathVariable String id){
+        Grade grade = gradeService.getGradeById(id);
+        return new ResponseEntity<>(grade, HttpStatus.OK);
+    }
+
+    @PostMapping("/grades/save")
+    public ResponseEntity<Grade> postGrade(@RequestBody Grade grade){
+        gradeService.addGrade(grade);
+        return new ResponseEntity<>(grade, HttpStatus.CREATED);
+    }
+    
+    @PutMapping("/grades/update/{id}")
+    public ResponseEntity<Grade> putGrade(@PathVariable String id, @RequestBody Grade grade){
+        int index = gradeService.getStudentIndex(id);
+        gradeService.updateGrade(grade, index);
+        return new ResponseEntity<>(grade, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/grades/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteGrade(@PathVariable String id){
         int index = gradeService.getStudentIndex(id);
         gradeService.deleteGrade(index);
-        return "redirect:/grades";
-    }   
-    
+        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+    }
 }

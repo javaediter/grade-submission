@@ -18,13 +18,16 @@ public class Grade {
     private String id;
     
     public Grade(){
+        System.out.println("...simple");
         this.id = UUID.randomUUID().toString();
     }
 
     public Grade(String student, String subject, String score) {
+        System.out.println("...with args");
         this.student = student;
         this.subject = subject;
         this.score = score;
+        this.id = UUID.randomUUID().toString();
     }
 
     public String getStudent() {

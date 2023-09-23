@@ -15,6 +15,12 @@ import java.util.List;
  */
 public class DataStore {
     private List<Grade> grades = new ArrayList<>();
+    
+    {
+        grades.add(new Grade("Harry", "Poetry", "A+"));
+        grades.add(new Grade("Paula", "Spanish", "A-"));
+        grades.add(new Grade("Nuno", "Math", "B+"));
+    }
 
     public List<Grade> getGrades() {
         return grades;
