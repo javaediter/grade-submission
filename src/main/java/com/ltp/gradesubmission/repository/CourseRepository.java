@@ -5,13 +5,13 @@
  */
 package com.ltp.gradesubmission.repository;
 
-import com.ltp.gradesubmission.entities.Grade;
+import com.ltp.gradesubmission.entities.Course;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author Edison Teran
  */
-public interface GradeRepository extends CrudRepository<Grade, Long>{
+public interface CourseRepository extends CrudRepository<Course, Long>{
     
 }

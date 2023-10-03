@@ -5,9 +5,14 @@
  */
 package com.ltp.gradesubmission.controller;
 
-import com.ltp.gradesubmission.pojos.Grade;
-import com.ltp.gradesubmission.service.GradeService;
+import com.ltp.gradesubmission.entities.Course;
+import com.ltp.gradesubmission.entities.Grade;
+import com.ltp.gradesubmission.entities.Student;
+import com.ltp.gradesubmission.service.ICourseService;
+import com.ltp.gradesubmission.service.IGradeService;
+import com.ltp.gradesubmission.service.IStudentService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -26,39 +32,51 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @CrossOrigin(origins = "*")
+@RequestMapping("/grades")
 public class GradeController {
     
     @Autowired
-    private GradeService gradeService;
+    private IGradeService gradeService;
     
-    @GetMapping("/grades")
+    @Autowired
+    private IStudentService studentService;
+    
+    @Autowired
+    private ICourseService courseService;    
+    
+    @GetMapping("/")
     public ResponseEntity<List<Grade>> getGrades(){
         return new ResponseEntity<>(gradeService.getGrades(), HttpStatus.OK);
     }
     
-    @GetMapping("/grades/{id}")
-    public ResponseEntity<Grade> getGrade(@PathVariable String id){
-        Grade grade = gradeService.getGradeById(id);
-        return new ResponseEntity<>(grade, HttpStatus.OK);
+    @GetMapping("/{id}")
+    public ResponseEntity<Grade> getGrade(@PathVariable Long id){
+        Optional<Grade> grade = gradeService.getGrade(id);
+        if(grade.isPresent()){
+            return new ResponseEntity<>(grade.get(), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(null, HttpStatus.NO_CONTENT);
+        }        
     }
 
-    @PostMapping("/grades/save")
-    public ResponseEntity<Grade> postGrade(@RequestBody Grade grade){
-        gradeService.addGrade(grade);
-        return new ResponseEntity<>(grade, HttpStatus.CREATED);
+    @PostMapping("/save/{student_id}/{course_id}")
+    public ResponseEntity<Grade> postGrade(@PathVariable(name = "student_id", required = true) Long studentId, @PathVariable(name = "course_id", required = true) Long courseId ,@RequestBody Grade grade){
+        Optional<Student> student = studentService.getStudent(studentId); 
+        Optional<Course> course = courseService.getCourse(courseId);
+        grade.setStudent(student.isPresent() ? student.get(): null);
+        grade.setCourse(course.isPresent() ? course.get(): null);
+        return new ResponseEntity<>(gradeService.saveGrade(grade), HttpStatus.CREATED);
     }
     
-    @PutMapping("/grades/update/{id}")
-    public ResponseEntity<Grade> putGrade(@PathVariable String id, @RequestBody Grade grade){
-        int index = gradeService.getStudentIndex(id);
-        gradeService.updateGrade(grade, index);
-        return new ResponseEntity<>(grade, HttpStatus.OK);
+    @PutMapping("/update")
+    public ResponseEntity<Grade> putGrade(@RequestBody Grade grade){
+        return new ResponseEntity<>(gradeService.saveGrade(grade), HttpStatus.OK);
     }
     
-    @DeleteMapping("/grades/delete/{id}")
-    public ResponseEntity<HttpStatus> deleteGrade(@PathVariable String id){
-        int index = gradeService.getStudentIndex(id);
-        gradeService.deleteGrade(index);
-        return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<HttpStatus> deleteGrade(@PathVariable Long id){
+        gradeService.deleteGrade(id);
+        return new ResponseEntity<>(null, HttpStatus.OK);
     }
+    
 }

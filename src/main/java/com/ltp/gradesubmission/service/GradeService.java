@@ -5,10 +5,10 @@
  */
 package com.ltp.gradesubmission.service;
 
-import com.ltp.gradesubmission.pojos.Grade;
+import com.ltp.gradesubmission.entities.Grade;
 import com.ltp.gradesubmission.repository.GradeRepository;
-import static com.ltp.gradesubmission.utils.Constants.NOT_FOUND;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,41 +17,28 @@ import org.springframework.stereotype.Service;
  * @author Edison Teran
  */
 @Service
-public class GradeService {
+public class GradeService implements IGradeService{  
     
     @Autowired
-    private GradeRepository gradeRepository;
-    
-    public Grade getGrade(int index){
-        return gradeRepository.getGrades().get(index);
+    private GradeRepository repository;
+
+    @Override
+    public Optional<Grade> getGrade(Long id) {
+        return repository.findById(id);
     }
-    
-    public void addGrade(Grade grade){
-        gradeRepository.addGrade(grade);
+
+    @Override
+    public List<Grade> getGrades() {
+        return (List<Grade>) repository.findAll();
     }
-    
-    public void updateGrade(Grade grade, int index){
-        gradeRepository.updateGrade(grade, index);
+
+    @Override
+    public Grade saveGrade(Grade grade) {
+        return repository.save(grade);
     }
-    
-    public List<Grade> getGrades(){
-        return gradeRepository.getGrades();
-    }
-    
-    public void deleteGrade(int index){
-        gradeRepository.deleteGrade(index);
-    }
-    
-    public Grade getGradeById(String id){
-        int index = gradeRepository.getStudentIndex(id);
-        return index == NOT_FOUND ? new Grade() : getGrade(index);
-    }
-    
-    public int getStudentIndex(String id){
-        for(int i = 0; i < gradeRepository.getGrades().size(); i++){
-            if(gradeRepository.getGrades().get(i).getId().equals(id))
-                return i;
-        }
-        return NOT_FOUND;
+
+    @Override
+    public void deleteGrade(Long id) {
+        repository.deleteById(id);
     }
 }

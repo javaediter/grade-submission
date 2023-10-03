@@ -5,13 +5,15 @@
  */
 package com.ltp.gradesubmission.repository;
 
-import com.ltp.gradesubmission.entities.Grade;
+import com.ltp.gradesubmission.entities.Student;
 import org.springframework.data.repository.CrudRepository;
 
 /**
  *
  * @author Edison Teran
  */
-public interface GradeRepository extends CrudRepository<Grade, Long>{
-    
+public interface StudentRepository extends CrudRepository<Student, Long>{
+    Iterable<Student> findByOrderByNameAsc();
+    Iterable<Student> findByOrderByBirthDateDesc();
+    Iterable<Student> findByNameContainingIgnoreCase(String name);
 }
