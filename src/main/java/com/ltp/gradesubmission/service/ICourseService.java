@@ -5,7 +5,7 @@
  */
 package com.ltp.gradesubmission.service;
 
-import com.ltp.gradesubmission.entities.Course;
+import com.ltp.gradesubmission.entity.Course;
 import java.util.List;
 import java.util.Optional;
 

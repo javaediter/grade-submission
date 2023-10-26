@@ -3,10 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ltp.gradesubmission.entities;
+package com.ltp.gradesubmission.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.time.LocalDate;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -16,7 +15,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import lombok.Data;
 
 /**
@@ -25,22 +23,23 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "students", uniqueConstraints = {
-    @UniqueConstraint(columnNames = {"name", "birth_date"})
-})
-public class Student {
+@Table(name = "courses")
+public class Course {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "name", nullable = false)
-    private String name;
+    @Column(name = "subject", nullable = false)
+    private String subject;
     
-    @Column(name = "birth_date", nullable = false)
-    private LocalDate birthDate;
+    @Column(name = "code", nullable = false)
+    private String code;
     
-    @JsonIgnore// no muestran las calificaciones en formato json, y también se evita un ciclo infinito de parseo a json
-    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)//al borrar el estudiante también se borran sus calificaciones
+    @Column(name = "description", nullable = false)
+    private String description;
+    
+    @JsonIgnore
+    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)    
     private List<Grade> grades;
 }

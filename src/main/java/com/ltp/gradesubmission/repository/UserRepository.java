@@ -5,13 +5,14 @@
  */
 package com.ltp.gradesubmission.repository;
 
-import com.ltp.gradesubmission.entity.Grade;
-import org.springframework.data.repository.CrudRepository;
+import com.ltp.gradesubmission.entity.User;
+import java.util.Optional;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
  *
  * @author Edison Teran
  */
-public interface GradeRepository extends CrudRepository<Grade, Long>{
-    
+public interface UserRepository extends JpaRepository<User, Long>{
+    public Optional<User> findUserByUsername(String username);
 }

@@ -3,15 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ltp.gradesubmission.repository;
+package com.ltp.gradesubmission.service;
 
-import com.ltp.gradesubmission.entity.Grade;
-import org.springframework.data.repository.CrudRepository;
+import com.ltp.gradesubmission.entity.User;
 
 /**
  *
  * @author Edison Teran
  */
-public interface GradeRepository extends CrudRepository<Grade, Long>{
-    
+public interface IUserService {
+    public User saveUser(User user);
 }

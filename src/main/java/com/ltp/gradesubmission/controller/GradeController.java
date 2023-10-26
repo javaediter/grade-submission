@@ -5,9 +5,9 @@
  */
 package com.ltp.gradesubmission.controller;
 
-import com.ltp.gradesubmission.entities.Course;
-import com.ltp.gradesubmission.entities.Grade;
-import com.ltp.gradesubmission.entities.Student;
+import com.ltp.gradesubmission.entity.Course;
+import com.ltp.gradesubmission.entity.Grade;
+import com.ltp.gradesubmission.entity.Student;
 import com.ltp.gradesubmission.service.ICourseService;
 import com.ltp.gradesubmission.service.IGradeService;
 import com.ltp.gradesubmission.service.IStudentService;

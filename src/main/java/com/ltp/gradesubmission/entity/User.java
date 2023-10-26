@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ltp.gradesubmission.entities;
+package com.ltp.gradesubmission.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -23,23 +23,21 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "courses")
-public class Course {
+@Table(name = "users")
+public class User {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "subject", nullable = false)
-    private String subject;
+    @Column(nullable = false, unique = true)
+    private String username;
     
-    @Column(name = "code", nullable = false)
-    private String code;
-    
-    @Column(name = "description", nullable = false)
-    private String description;
+    @Column(nullable = false)
+    private String password;
     
     @JsonIgnore
-    @OneToMany(mappedBy = "course", cascade = CascadeType.ALL)    
-    private List<Grade> grades;
+    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    private List<Authority> authorities;
+
 }

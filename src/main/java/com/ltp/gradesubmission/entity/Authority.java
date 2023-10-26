@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.ltp.gradesubmission.entities;
+package com.ltp.gradesubmission.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -21,22 +21,17 @@ import lombok.Data;
  */
 @Data
 @Entity
-@Table(name = "grades")
-public class Grade {
+@Table(name = "authorities")
+public class Authority {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @Column(name = "score", nullable = false)
-    private String score;
+    @Column(nullable = false)
+    private String name;
     
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Student student;
-    
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
-    private Course course;
-    
+    @JoinColumn(name = "user")
+    @ManyToOne
+    private User user;
 }

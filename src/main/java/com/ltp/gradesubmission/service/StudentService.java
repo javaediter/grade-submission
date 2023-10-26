@@ -5,7 +5,7 @@
  */
 package com.ltp.gradesubmission.service;
 
-import com.ltp.gradesubmission.entities.Student;
+import com.ltp.gradesubmission.entity.Student;
 import com.ltp.gradesubmission.repository.StudentRepository;
 import java.util.List;
 import java.util.Optional;
